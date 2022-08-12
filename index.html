@@ -12,7 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
         <style type="text/css">
-            . {
+            * {
                 margin: 0;
             }
 
@@ -65,17 +65,18 @@
 
             a:focus {
                 background-color: #0077b6;
+                color: white;
             }
 
             .level-bar {
                 width: 200px;
                 border-radius: 3px;
-                border: thin solid #023e8a;
+                border: thin solid #03045e;
             }
 
             .level-bar span {
                 display: inline-block;
-                padding: 6px 0px;
+                padding: 5px 0px;
                 border-radius: 3px;
                 font-family: Arial, Helvetica, sans-serif;
                 font-size: 1em;
@@ -88,9 +89,9 @@
             .label {
                 padding: 5px 0px;
                 font-family: Arial, Helvetica, sans-serif;
-                font-size: 1.2em;
+                font-size: 1em;
                 font-weight: 600;
-                color: rgb(60, 60, 100)
+                color: rgb(70, 70, 100)
             }
         </style>
     </head>
@@ -105,6 +106,9 @@
                 <img src="./concluido.png" class="m-auto" width="250px">
                 <div class="row-between">
                     <span class="label">Nível:</span><div class="level-bar"><span style="width: 75%">75%</span></div>
+                </div>
+                <div class="row-between">
+                    <span class="label">Capacidade:</span><span class="label">750 / 1000 Litros</span>
                 </div>
             </div>
         </div>
