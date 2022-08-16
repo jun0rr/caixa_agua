@@ -71,21 +71,40 @@
             }
 
             .level-bar {
+                --progress: 30%;
+                --value: "75%";
                 width: 200px;
                 border-radius: 3px;
                 border: thin solid #023E8A;
+                position: relative;
             }
 
-            .level-bar span {
+            .level-bar::before {
+                content: "";
+                position: absolute;
                 display: inline-block;
-                padding: 5px 0px;
-                border-radius: 3px;
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 1em;
-                font-weight: 600;
-                text-align: center;
-                color: white;
+                left: 0px;
+                top: 0px;
+                width: var(--progress);
+                height: 100%;
                 background-color: #0077b6;
+                border-radius: 3px;
+                z-index: 1;
+            }
+
+            .level-bar::after {
+                content: var(--value);
+                position: absolute;
+                display: inline-block;
+                padding: 4px 0px;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                color: white;
+                text-align: center;
+                text-shadow: 0px 0px 2px #03045E, 1px 1px 2px #03045E;
+                z-index: 2;
             }
 
             .label {
@@ -101,10 +120,11 @@
 
         <div class="row-center">
             <div class="col">
-                <p class="title m-auto">Nível da Caixa d'água</p>
+                <!-- p class="title m-auto">Nível da Caixa d'água</p -->
+                <p class="title m-auto">Lev</p>
                 <div class="row-center">
-                    <a href="#" onclick="principal()" class="m-auto">Principal</a>
-                    <a href="#" onclick="hello()" class="m-auto">Auxiliar</a>
+                    <a href="#" onclick="principal()" class="m-auto">Pri</a>
+                    <a href="#" onclick="hello()" class="m-auto">Aux</a>
                 </div>
                 <svg id="cx25" style="display: none;" class="m-auto" width="500px" height="250px" viewBox="0 0 150 100">
                     <g transform="translate(-32.67 -128.57)">
@@ -112,7 +132,7 @@
                         <path d="m169.43 197.7c-3.0976 5.3552-6.6049 8.8065-14.193 8.8159-7.202-0.0122-12.672-3.128-15.968-8.078-3.2983 4.9525-7.65 8.0687-14.856 8.078-7.2115-0.0126-13.81-3.1369-17.102-8.0971-3.2935 4.9629-9.8975 8.0876-17.113 8.0971-7.2117-0.0125-11.192-3.1368-14.483-8.0971-3.2935 4.9629-8.4008 8.0876-15.616 8.0971-7.5868-9e-3 -11.841-3.4593-14.94-8.8128-0.11364 0.30103-0.15727 0.62403-0.11301 0.96016l2.4434 21.113c0.21205 1.6104 1.5794 2.924 3.541 2.924h111.87c1.9617 0 3.305-1.316 3.541-2.924l3.0994-21.113c0.0476-0.33717 5e-3 -0.66131-0.10891-0.96327z" fill="#5985d0" stroke-width=".20427"/>
                     </g>
                 </svg>
-                <svg id="cx50" class="m-auto" width="500px" height="250px" viewBox="0 0 150 100">
+                <svg id="cx50" style="display: none;" class="m-auto" width="500px" height="250px" viewBox="0 0 150 100">
                     <g transform="translate(-251.47 -86.777)">
                     <g transform="translate(16.933 -69.321)">
                         <path d="m238.41 156.1c-2.1322 0-4.0795 1.7382-3.849 3.8695l9.9769 92.261c0.23048 2.1313 1.7168 3.87 3.849 3.87h121.6c2.1322 0 3.6023-1.7406 3.849-3.87l10.689-92.261c0.24672-2.1295-1.7168-3.8695-3.849-3.8695zm5.6597 6.0002h130.94c1.9626 0 3.7693 1.5315 3.5422 3.4055l-9.8387 81.189c-0.2271 1.874-1.5801 3.4055-3.5427 3.4055h-111.92c-1.9626 0-3.3306-1.5299-3.5427-3.4055l-9.1829-81.189c-0.21214-1.8756 1.5801-3.4055 3.5427-3.4055z" fill="#0b1427" stroke-width=".245"/>
@@ -147,17 +167,17 @@
                     </g>
                 </svg>
                 <div class="row-between">
-                    <span class="label">Nível:</span><div class="level-bar"><span id="percent" style="width: 75%; text-align: center;">75%</span></div>
+                    <!-- span class="label">Nível:</span><div class="level-bar"><span id="percent" style="width: 75%; text-align: center;">75%</span></div -->
+                    <span class="label">Lev:</span><div class="level-bar"></div>
                 </div>
                 <div class="row-between">
-                    <span class="label">Capacidade:</span><span class="label"><span id="current">750</span> / <span id="capacity">1000</span> Litros</span>
+                    <!-- span class="label">Capacidade:</span><span class="label"><span id="current">750</span> / <span id="capacity">1000</span> Litros</span -->
+                    <span class="label">Cap:</span><span class="label"><span id="current">750</span> / <span id="capacity">1000</span> L</span>
                 </div>
             </div>
         </div>
 
         <script lang="javascript">
-
-            console.log("script...");
 
             function principal() {
                 let ajax = new XMLHttpRequest();
@@ -168,29 +188,28 @@
                             const cx = JSON.parse(ajax.response);
                             console.log(cx);
                             cx.current = Math.random();
-                            let percent = document.getElementById("percent");
                             let value = (cx.current * 100.0).toFixed(1) + "%";
-                            percent.style.color = cx.current < 0.2 ? "#03045E" : "white";
-                            percent.style.width = value;
-                            percent.innerHTML = value;
+                            let level = document.getElementsByClassName("level-bar")[0];
+                            level.style.setProperty("--progress", value);
+                            level.style.setProperty("--value", '"' + value + '"');
                             document.getElementById("current").innerHTML = (cx.current * cx.capacity).toFixed(0);
                             document.getElementById("capacity").innerHTML = cx.capacity;
                             let svgs = document.getElementsByTagName("svg");
-                            for(let svg of svgs) {
-                                svg.style.display = "none";
-                            }
-                            if(cx.current <= 0.25) {
-                                document.getElementById("cx25").style.display = "";
-                            }
-                            else if(cx.current <= 0.5) {
-                                document.getElementById("cx50").style.display = "";
-                            }
-                            else if(cx.current <= 0.75) {
-                                document.getElementById("cx75").style.display = "";
-                            }
-                            else {
-                                document.getElementById("cx100").style.display = "";
-                            }
+                            // for(let svg of svgs) {
+                                // svg.style.display = "none";
+                            // }
+                            // if(cx.current <= 0.25) {
+                                // document.getElementById("cx25").style.display = "";
+                            // }
+                            // else if(cx.current <= 0.5) {
+                                // document.getElementById("cx50").style.display = "";
+                            // }
+                            // else if(cx.current <= 0.75) {
+                                // document.getElementById("cx75").style.display = "";
+                            // }
+                            // else {
+                                // document.getElementById("cx100").style.display = "";
+                            // }
                         }
                         else {
                             console.log("Error: " + ajax.status);
